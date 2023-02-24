@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { isEmpty } from 'lodash'
+import { Outlet } from 'react-router-dom'
 
 import './AppLayout.scss'
 
 import AuthContext from '@/context/AuthContext'
-
-import { isEmpty } from 'lodash'
-import { Outlet } from 'react-router-dom'
+import Header from './Header'
 
 const AppLayout = () => {
   const { userData, fetchUserData } = useContext( AuthContext )
@@ -22,6 +22,8 @@ const AppLayout = () => {
 
   return (
     <div className='app-layout'>
+      <Header />
+
       <main>
         <Outlet />
       </main>

@@ -40,6 +40,7 @@ class GoogleLogin(APIView):
             user_info = id_token.verify_oauth2_token(
                 token, requests.Request(), settings.GOOGLE_CLIENT_ID
             )
+            print(user_info)
             # ID token is valid.
             # check if the user exists or not
             user_exists = User.objects.filter(email=user_info["email"]).exists()
@@ -52,6 +53,7 @@ class GoogleLogin(APIView):
                     email=user_info["email"],
                     first_name=user_info["given_name"],
                     last_name=user_info["family_name"],
+                    profile_pic=user_info['picture'],
                 )
                 new_user.set_unusable_password()
                 new_user.save()

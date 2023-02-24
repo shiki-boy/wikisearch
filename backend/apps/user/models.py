@@ -47,6 +47,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     registered_at = models.DateTimeField(
         verbose_name='Registered at', auto_now_add=timezone.now)
     modified = models.DateTimeField(auto_now=True)
+    profile_pic = models.URLField(blank=True)
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
@@ -67,6 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             'full_name': self.full_name,
             'phone_number': self.phone_number and getattr(self.phone_number, 'raw_input', ''),
             'registered_at': self.registered_at,
+            'profile_pic': self.profile_pic,
         }
 
     def __str__(self):

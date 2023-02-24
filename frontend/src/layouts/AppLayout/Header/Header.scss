@@ -1,0 +1,52 @@
+@import '@/theme/variables.scss';
+
+.header-container {
+    box-shadow: 7px 9px 22px rgba(0, 0, 0, 0.09);
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    
+    h4 {
+        margin: 10px;
+    }
+    
+    .profile-pic{
+        cursor: pointer;
+        border: 0.5px solid grey;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        transition: all 0.3s;
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+    
+    .menu {
+        background-color: $grey-1;
+        padding: 5px $spacing-2;
+        position: absolute;
+        right: 10px;
+        top: 60px;
+        border: 0.2px solid $grey-2;
+        border-radius: 10px;
+        box-shadow: 7px 9px 22px rgba(0, 0, 0, 0.09);
+        z-index: 11;
+        cursor: pointer;
+        transition: all 0.3s;
+        animation: fadeIn 0.3s;
+
+        &:hover {
+            background-color: $grey-2;
+        }
+
+        svg {
+            margin-right: $spacing-1;
+            vertical-align: middle;
+        }
+    }
+}
