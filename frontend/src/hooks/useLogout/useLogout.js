@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import Cookie from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 
 import useApi from '@/hooks/useApi'
 import httpClient from '@/hooks/useApi/httpClient'
@@ -7,6 +8,8 @@ import AuthContext from '@/context/AuthContext'
 import { logoutURL } from '@/router/apiEndpoint'
 
 const useLogout = () => {
+  const navigate = useNavigate()
+
   const { setUserData } = useContext( AuthContext )
 
   const { mutateAsync, isError } = useApi( 'post', logoutURL )
@@ -23,19 +26,11 @@ const useLogout = () => {
 
     Cookie.remove( 'refreshToken', { path: '/' } )
 
-    const requestedUrl = !window.location.pathname.includes( '/logout' )
-    //   ? `?next=${ window.location.pathname }`
-    //   : ''
-
-    // window.location.href = `${ import.meta.env.VITE_REDIRECT_BASE_URL }${ requestedUrl }`
+    navigate( '/login' )
   }
 
   const logout = () => {
     mutateAsync().then( ( data ) => {
-      if ( data?.redirect_url ) {
-        deleteCookies( true )
-        return
-      }
       deleteCookies()
     } )
   }

@@ -18,12 +18,7 @@ httpClient.interceptors.request.use(
     if (
       [
         '/login',
-        '/password/reset/confirm',
-        '/registration',
-        '/logout',
-        '/single-user-signup',
-        '/password/reset',
-        '/password/reset/confirm',
+        '/google/verify',
       ].some( ( v ) => config.url.match( new RegExp( v ) ) )
     ) {
       return config
@@ -77,8 +72,6 @@ httpClient.interceptors.response.use(
         domain,
         path: '/',
       } )
-
-      window.location.href = `${ import.meta.env.VITE_REDIRECT_BASE_URL }?next=${ window.location.pathname }`
     }
     return Promise.reject( error.response )
   },

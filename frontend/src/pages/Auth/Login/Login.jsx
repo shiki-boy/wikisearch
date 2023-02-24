@@ -1,30 +1,43 @@
 import { useContext, useEffect } from 'react'
+import jwtDecode from 'jwt-decode'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 
-import Form from '@/components/Forms/Form'
 import AuthContext from '@/context/AuthContext'
-import { loginURL } from '@/router/apiEndpoint'
-
-import LoginForm from './LoginForm'
 import httpClient from '@/hooks/useApi/httpClient'
 
 const Login = () => {
+  const navigate = useNavigate()
   const { setUserData } = useContext( AuthContext )
 
-  const onSuccess = async ( responseData ) => {
-    console.log( responseData )
+  const onSuccess = async ( googleResponseData ) => {
     const { data } = await httpClient.post(
-      'http://localhost:8000/api/auth/google/verify/',
-      { access_token: responseData.credential },
+      '/api/auth/google/verify/',
+      { access_token: googleResponseData.credential },
     )
 
-    console.log( { data } )
+    // set jwt cookies
+    const accessTokenExpires = new Date(
+      jwtDecode( data.access_token ).exp * 1000,
+    )
+    const refreshTokenExpires = new Date(
+      jwtDecode( data.refresh_token ).exp * 1000,
+    )
+
+    Cookies.set( 'Authorization', `Bearer ${ data.access_token }`, { expires: accessTokenExpires } )
+
+    Cookies.set( 'refreshToken', data.refresh_token, { expires: refreshTokenExpires } )
+
+    setUserData( { info: data.user } )
+
+    navigate( '/dashboard' )
   }
 
   useEffect( () => {
     /* global google */
     google.accounts.id.initialize( {
       callback: onSuccess,
-      client_id: import.meta.env.GOOGLE_CLIENT_ID,
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
     } )
 
     google.accounts.id.renderButton( document.getElementById( 'google-sign-in' ), { theme: 'filled_blue' } )
@@ -55,15 +68,6 @@ const Login = () => {
           data-size='large'
           data-logo_alignment='left'>
         </div> */}
-        {/* <Form
-          method='post'
-          endpoint={ loginURL }
-          onSuccess={ onSuccess }
-          showOnlyToastErrors={ true }
-          FormBody={ ( props ) =>
-            LoginForm( { ...props } )
-          }
-        /> */}
       </div>
     </>
   )
