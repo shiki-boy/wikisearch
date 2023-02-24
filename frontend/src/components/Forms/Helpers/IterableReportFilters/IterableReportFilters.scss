@@ -1,0 +1,10 @@
+.report-filters-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 40px;
+  grid-gap: 20px;
+  align-items: center;
+
+  .remove-btn {
+    margin-bottom: 10px;
+  }
+}
