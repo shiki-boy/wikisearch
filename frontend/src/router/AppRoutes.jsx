@@ -37,12 +37,12 @@ const AppRoutes = () => {
     {
       children: [
         {
-          element: <Navigate to='/dashboard' />,
+          element: <Navigate to='/search' />,
           path: '',
         },
         ...appPages,
         {
-          element: <Navigate to='/dashboard' />,
+          element: <Navigate to='/search' />,
           path: '*',
         },
       ],

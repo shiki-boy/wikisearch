@@ -1,8 +1,12 @@
 import { kebabCase } from 'lodash'
 
-import Dashboard from './Dashboard'
+import Search from './Search'
+import ViewPage from './ViewPage'
 
-export default { Dashboard }
+export default {
+  Search,
+  ViewPage,
+}
 
 const createPagesConf = ( pagesList ) =>
   pagesList.map( ( { name, roles, ...rest } ) => ( {
@@ -14,7 +18,8 @@ const createPagesConf = ( pagesList ) =>
   } ) )
 
 const mainPages = [
-  { name: 'Dashboard' },
+  { name: 'Search' },
+  { name: 'ViewPage' },
 ]
 
 export const mainPagesConf = createPagesConf( mainPages )
