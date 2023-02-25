@@ -1,4 +1,4 @@
-import { formatISO, parseISO } from 'date-fns'
+import { formatISO, parseISO, sub } from 'date-fns'
 import { useState } from 'react'
 import ReactDatePicker from 'react-datepicker'
 
@@ -9,6 +9,7 @@ import FormLabel from '@/components/Forms/Helpers/FormLabel'
 import dateTimeFormatter from '@/utils/dateTimeFormatter'
 
 import Actions from './Actions'
+import Button from '@/components/Button'
 
 const Dashboard = () => {
   const [ dateTimeFilter, setDateTimeFilter ] = useState()
@@ -20,6 +21,13 @@ const Dashboard = () => {
       key: 'created',
     },
   ]
+
+  const getPastDate = ( option ) => {
+    // option can be days or hours
+    const date = formatISO( sub( new Date(), option ) )
+
+    setDateTimeFilter( date )
+  }
 
   return (
     <div className='dashboard'>
@@ -43,6 +51,26 @@ const Dashboard = () => {
           showTimeInput
         />
       </FormLabel>
+
+      <div className='buttons'>
+        <Button
+          title='Past 7 days'
+          color='secondary'
+          onClick={ () => getPastDate( { days: 7 } ) }
+        />
+
+        <Button
+          title='Past 1 day'
+          color='secondary'
+          onClick={ () => getPastDate( { days: 1 } ) }
+        />
+
+        <Button
+          title='Past 1 hour'
+          color='secondary'
+          onClick={ () => getPastDate( { hours: 1 } ) }
+        />
+      </div>
 
       <DataTable
         columns={ columns }

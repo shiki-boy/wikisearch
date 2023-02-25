@@ -1,3 +1,9 @@
+@import '@/theme/variables.scss';
+
 .dashboard {
-    
+    .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: $spacing-2;
+    }
 }
