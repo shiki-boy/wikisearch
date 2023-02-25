@@ -1,9 +1,11 @@
 import { kebabCase } from 'lodash'
 
+import Dashboard from './Dashboard'
 import Search from './Search'
 import ViewPage from './ViewPage'
 
 export default {
+  Dashboard,
   Search,
   ViewPage,
 }
@@ -18,6 +20,7 @@ const createPagesConf = ( pagesList ) =>
   } ) )
 
 const mainPages = [
+  { name: 'Dashboard' },
   { name: 'Search' },
   { name: 'ViewPage' },
 ]

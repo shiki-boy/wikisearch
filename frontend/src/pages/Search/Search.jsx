@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+
+import './Search.scss'
 
 import Button from '@/components/Button'
 import DataTable from '@/components/DataTable'
@@ -10,29 +12,32 @@ import useApi from '@/hooks/useApi'
 import PageItem from './PageItem'
 
 const Search = () => {
+  const [ searchParams ] = useSearchParams()
+  const _searchQuery = searchParams.get( 'query' )
+
   const navigate = useNavigate()
 
   const { mutate: saveSearch } = useApi( 'post', '/api/search' )
 
-  const [ search, setSearch ] = useState( '' )
+  const [ search, setSearch ] = useState( _searchQuery ?? '' )
   const [ result, setResult ] = useState( [] )
   const [ isLoading, setIsLoading ] = useState( false )
 
   useEffect( () => {
+    if ( _searchQuery ) {
+      handleSearch( false )
+    }
   }, [] )
 
-  const handleSearch = async () => {
+  const handleSearch = async ( autoSave = true ) => {
     setIsLoading( true )
     const { data } = await axios
       .get( 'https://en.wikipedia.org/w/api.php', {
         params: {
           action: 'opensearch',
-          // action: 'parse',
           format: 'json',
           origin: '*',
           search,
-          // page: 'Atoms for Peace',
-          // prop: 'text',
         },
       } )
 
@@ -41,7 +46,9 @@ const Search = () => {
 
     setIsLoading( false )
 
-    saveSearch( { query: search } )
+    if ( autoSave ) {
+      saveSearch( { query: search } )
+    }
   }
 
   const formatResponse = ( data ) => {
@@ -58,7 +65,7 @@ const Search = () => {
   } ]
 
   return (
-    <div>
+    <div className='search-page'>
       <h1>Search Wiki Pages</h1>
 
       <form>
@@ -77,8 +84,15 @@ const Search = () => {
           color='primary'
           type='submit'
           isLoading={ isLoading }
-          loadingText='Signing in...'
+          loadingText='Searching...'
           onClick={ handleSearch }
+        />
+
+        <Button
+          title='My Searches'
+          color='tertiary dashboard-btn'
+          type='button'
+          onClick={ () => navigate( '/dashboard' ) }
         />
       </form>
 
