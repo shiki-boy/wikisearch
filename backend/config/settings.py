@@ -47,6 +47,7 @@ SHARED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.postgres",
+    "apps.search",
     "apps.user",
     "apps.util",
 ]

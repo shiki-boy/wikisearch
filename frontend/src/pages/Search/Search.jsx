@@ -1,13 +1,19 @@
-import Button from '@/components/Button'
-import DataTable from '@/components/DataTable'
-import FormLabel from '@/components/Forms/Helpers/FormLabel'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import Button from '@/components/Button'
+import DataTable from '@/components/DataTable'
+import FormLabel from '@/components/Forms/Helpers/FormLabel'
+import useApi from '@/hooks/useApi'
+
 import PageItem from './PageItem'
 
 const Search = () => {
   const navigate = useNavigate()
+
+  const { mutate: saveSearch } = useApi( 'post', '/api/search' )
+
   const [ search, setSearch ] = useState( '' )
   const [ result, setResult ] = useState( [] )
   const [ isLoading, setIsLoading ] = useState( false )
@@ -24,7 +30,7 @@ const Search = () => {
           // action: 'parse',
           format: 'json',
           origin: '*',
-          search: 'atoms',
+          search,
           // page: 'Atoms for Peace',
           // prop: 'text',
         },
@@ -32,7 +38,10 @@ const Search = () => {
 
 
     formatResponse( data )
+
     setIsLoading( false )
+
+    saveSearch( { query: search } )
   }
 
   const formatResponse = ( data ) => {

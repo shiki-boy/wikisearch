@@ -46,7 +46,7 @@ const Login = () => {
   return (
     <>
       <div>
-        <h1>Log in</h1>
+        <h1>Wiki Search</h1>
 
         <div id='google-sign-in'></div>
 

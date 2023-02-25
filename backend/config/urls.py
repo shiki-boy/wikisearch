@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('api/auth/', include(('apps.user.urls', 'user'), namespace='auth-api')),
+    path('api/search/', include(('apps.search.urls', 'search'), namespace='search-api')),
     
     # catch all the rest
     # url(r"^.*$", TemplateView.as_view(template_name="index.html")),
